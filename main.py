@@ -9,6 +9,7 @@ extensions = [
     "cogs.kick",
     "cogs.whois",
     "cogs.github",
+    "cogs.archwiki",
     "jishaku"
 ]
 
