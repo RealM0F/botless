@@ -18,16 +18,16 @@ class archwiki(commands.Cog):
                 async with session.get(f'https://wiki.archlinux.org/api.php?action=opensearch&format=json&formatversion=2&search={yeet}&namespace=0&limit=5&suggest=true') as ae:
                     e = await ae.json()
                     status = ae.status
-                    print(e)
-                    print(status)
-
+                    #
+                    # Check if the arch wiki responded correctly.
+                    #
                     if status != 200:
                         ctx.send(f"Something went wrong. Errorcode: {status}")
                     else:
                         if e[3]:
                             embed = discord.Embed()
                             embed.set_thumbnail(url="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Archlinux-icon-crystal-64.svg/2000px-Archlinux-icon-crystal-64.svg.png")
-                            embed.add_field(name="Results:", value=re.sub(r"\[|\]|\,|\'", " ", str(e[3])), inline=True)
+                            embed.add_field(name="Results:", value=re.sub(r"\[|\]|\,|\'", " ", str(e['3'])), inline=True)
                             await ctx.send(embed=embed)
                         else:
                             embed = discord.Embed()

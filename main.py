@@ -1,5 +1,6 @@
 from discord.ext import commands
 from discord.ext.commands import has_permissions, MissingPermissions
+from discord import Member
 import discord
 import json
 
@@ -10,10 +11,12 @@ extensions = [
     "cogs.whois",
     "cogs.github",
     "cogs.archwiki",
+    "cogs.blockgame",
+    "cogs.errorhandling",
     "jishaku"
 ]
 
-bot = commands.Bot(command_prefix="$", status=discord.Status.idle, activity=discord.Game(name=":thinking:"), case_insensitive=True)
+bot = commands.Bot(command_prefix="$", status=discord.Status.idle, activity=discord.Game(name="Starting..."), case_insensitive=True)
 
 # Loading configuration file
 config = json.load(open('config.json'))
