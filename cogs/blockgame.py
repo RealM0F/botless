@@ -30,19 +30,20 @@ class blockgame(commands.Cog):
                     if status != 200:
                         ctx.send(f"Sk1er's api responded with {status}")
                         return
-                    if Exception:
-                        await ctx.send(f"{arg}'s account is messed up.'")
-                    else:
+                    
+                    try:
                         embed = discord.Embed()
-                        #embed.set_thumbnail(url="")
-
+                        embed.set_thumbnail(url="https://avatars1.githubusercontent.com/u/36334560?s=200&v=4")
                         embed.add_field(name="Hyperium credits:", value=purchases['remaining_credits'], inline=True)
-                        assbath = re.sub(r"\[|\]|\'", " ", str(purchases['hyperium'])).lower()
-                        yourmom = re.sub(r"\_", " ", assbath).title()
-                        embed.add_field(name="Hyperium cosmetics:", value=yourmom, inline=True)
-                        
+                        assbath = re.sub(r"\[|\]|\_|\'", " ", str(purchases['hyperium'])).lower().title()
+                        embed.add_field(name="Hyperium cosmetics:", value=assbath, inline=True)    
                         await ctx.send(embed=embed)
-  
+                    
+                    except Exception as e:
+                        #await ctx.send(f"{e}")
+                        print(e)
+                        print(purchases)
+
     @commands.command(name='hypixel')
     async def _hypixel(self, ctx, arg = None):
         header = {
@@ -54,12 +55,11 @@ class blockgame(commands.Cog):
                 async with session.get(f'https://api.sk1er.club/player/{arg}') as userinfo:
                     info = await userinfo.json()
                     status = userinfo.status
+                    
                     if status != 200: 
                         ctx.send(f"Sk1er's api responded with {status}")
                         return
-                    else:
-
-
+                    try:
                         embed = discord.Embed()
                         embed.set_thumbnail(url="https://i.imgur.com/f85vTZT.png")
                         embed.add_field(name="Username:", value=info['player']['playername'], inline=True)
@@ -80,13 +80,11 @@ class blockgame(commands.Cog):
                         lastlog = time.strftime('%d.%m.%Y', time.localtime(info['player']['lastLogin'] / 1000))
                         embed.add_field(name="Last login:", value=lastlog, inline=True)
                         embed.add_field(name="First login:", value=firstlog, inline=True)
-                        #
-                        # I should probably cache this but whatever
-                        # 
+
                         embed.add_field(name="Last played version:", value=info['player']['mcVersionRp'], inline=True)
                         embed.add_field(name="Last played minigame:", value=info['player']['mostRecentGameType'], inline=True)
-
                         await ctx.send(embed=embed)
-
+                    except Exception:
+                        await ctx.send("A problem occured.")
 def setup(bot):
     bot.add_cog(blockgame(bot))

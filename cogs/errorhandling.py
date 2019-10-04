@@ -14,22 +14,18 @@ class CommandErrorHandler(commands.Cog):
     
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        ignored = (commands.CommandNotFound)
-        error = getattr(error, 'original', error)
+        ignored = (commands.CommandNotFound, commands.BadArgument)
+        error1 = getattr(error, 'original', error)
 
-        if isinstance(error, ignored):
+        if isinstance(error1, ignored):
             return
 
-        elif isinstance(error, discord.ext.commands.errors.BadArgument):
-            await ctx.send('Invalid argument.')
+        elif isinstance(error1, commands.CommandError):
+            await ctx.send(error)
+        
+        elif isinstance(error1, commands.MissingPermissions):
+            await ctx.send(f'Missing permissions in {ctx.channel}')
 
-        #elif isinstance(error, InvalidData):
-        #    await ctx.send('Oh god. Discord is breaking down.')
-
-#
-# To do: 
-# Make it show the stacktrace when there is a actual problem
-#
 
 def setup(bot):
     bot.add_cog(CommandErrorHandler(bot))

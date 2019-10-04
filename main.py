@@ -5,7 +5,6 @@ import discord
 import json
 
 extensions = [
-    "cogs.echo",
     "cogs.ban",
     "cogs.kick",
     "cogs.whois",

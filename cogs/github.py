@@ -45,15 +45,20 @@ class github(commands.Cog):
             async with session.get(f'https://api.github.com/orgs/{arg1}') as ae:
                 e = await ae.json()
                 status = ae.status
+                print(e)
                 if status == 200:
                     embed = discord.Embed()
                     embed.set_thumbnail(url=(e['avatar_url']))
                     embed.add_field(name="Name:", value=f"[{e['login']}]({e['html_url']})", inline=True)
                     embed.add_field(name="Email", value=e['email'], inline=True)
+                    
                     if e['description'] == "":
                         embed.add_field(name="Description:", value="Repo doesn't have a description", inline=False)
                     else:
                         embed.add_field(name="Description:", value=e['description'], inline=False)
+                    #
+                    # 
+                    #
                     embed.add_field(name="Location:", value=e['location'], inline=False)
                     embed.add_field(name="Public Repos:", value=e['public_repos'], inline=True)
                     embed.add_field(name="Public Gists:", value=e['public_gists'], inline=True)
@@ -62,7 +67,7 @@ class github(commands.Cog):
                     await ctx.send(embed=embed)
                 
                 elif status == 404:
-                    await ctx.send(f"Invalid user.")
+                    await ctx.send(f"Invalid org.")
                 
                 else:
                     await ctx.send(f"Github's api responded with {status}...")
