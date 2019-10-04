@@ -8,7 +8,7 @@ class ban(commands.Cog):
         
     @commands.command(name='ban')
     @has_permissions(ban_members=True)
-    async def _ban(self, ctx, member: discord.Member = None, arg = None):
+    async def _ban(self, ctx, member: discord.Member = None, *, arg = None):
         if member:
             if arg:
                 await ctx.message.delete()
@@ -19,7 +19,7 @@ class ban(commands.Cog):
                 await ctx.guild.ban(user=member, reason=f"Banned by: {ctx.author.name}")
                 await ctx.send(f'{member} has been banned. :sunglasses:')
         else:
-            await ctx.send(f'Invalid user.')
+            raise commands.BadArgument('Invalid User')
 
 def setup(bot):
     bot.add_cog(ban(bot))

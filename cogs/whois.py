@@ -40,7 +40,7 @@ class whois(commands.Cog):
             print(embed.to_dict())
             await ctx.send(embed=embed)
         else:
-            await ctx.send("Invalid user >:(")
+            raise commands.BadArgument('Invalid User')
 
 
 def setup(bot):
