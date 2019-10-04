@@ -7,6 +7,6 @@ You want it, we've got it!
  * Lots of customization
  * Quick support
  * A dedicated developer
-
+ * Bans it's creator
 ### Project that has inspired and helped me actually create this:
 [Fire Discord Bot](https://github.com/GamingGeek/Fire)
