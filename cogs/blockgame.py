@@ -7,11 +7,6 @@ import json
 import re
 import time
 
-hello = {
-	'USER-AGENT': 'Botless (Python 3.7.4 / aiohttp 3.5.4) | Botless Discord Bot',
-	'CONTENT-TYPE': 'text/json' 
-}
-
 class blockgame(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -21,15 +16,14 @@ class blockgame(commands.Cog):
         if arg:
             hello = {
 	        'USER-AGENT': 'Botless (Python 3.7.4 / aiohttp 3.5.4) | Botless Discord Bot',
-	        'CONTENT-TYPE': 'text/json' 
+	        'CONTENT-TYPE': 'application/json' 
             }
             async with aiohttp.ClientSession(headers=hello) as session:
                 async with session.get(f'https://api.sk1er.club/purchases/{arg}') as memes:
                     purchases = await memes.json()
                     status = memes.status
                     if status != 200:
-                        ctx.send(f"Sk1er's api responded with {status}")
-                        return
+                        raise commands.CommandError(f'Sk1er\'s API responded with {status}')
                     
                     try:
                         embed = discord.Embed()
@@ -40,15 +34,13 @@ class blockgame(commands.Cog):
                         await ctx.send(embed=embed)
                     
                     except Exception as e:
-                        #await ctx.send(f"{e}")
-                        print(e)
-                        print(purchases)
+                        raise commands.CommandError('Something went wrong while fetching the info')
 
     @commands.command(name='hypixel')
     async def _hypixel(self, ctx, arg = None):
         header = {
 	    'USER-AGENT': 'Botless (Python 3.7.4 / aiohttp 3.5.4) | Botless Discord Bot',
-	    'CONTENT-TYPE': 'text/json'
+	    'CONTENT-TYPE': 'application/json'
         }
         if arg:
             async with aiohttp.ClientSession(headers=header) as session:
@@ -57,8 +49,7 @@ class blockgame(commands.Cog):
                     status = userinfo.status
                     
                     if status != 200: 
-                        ctx.send(f"Sk1er's api responded with {status}")
-                        return
+                        raise commands.CommandError(f'Sk1er\'s API responded with {status}')
                     try:
                         embed = discord.Embed()
                         embed.set_thumbnail(url="https://i.imgur.com/f85vTZT.png")
@@ -85,6 +76,6 @@ class blockgame(commands.Cog):
                         embed.add_field(name="Last played minigame:", value=info['player']['mostRecentGameType'], inline=True)
                         await ctx.send(embed=embed)
                     except Exception:
-                        await ctx.send("A problem occured.")
+                        raise commands.CommandError('Something went wrong while fetching the info')
 def setup(bot):
     bot.add_cog(blockgame(bot))

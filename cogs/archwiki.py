@@ -36,7 +36,7 @@ class archwiki(commands.Cog):
                             await ctx.send(embed=embed)
 
         else:
-            await ctx.send(f"Invalid argument!", delete_after=5)
+            raise commands.BadArgument('An invalid argument was provided')
 
 def setup(bot):
     bot.add_cog(archwiki(bot))

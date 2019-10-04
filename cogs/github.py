@@ -12,7 +12,7 @@ class github(commands.Cog):
     @commands.group(name='github')
     async def _github(self, ctx):
         if ctx.invoked_subcommand is None:
-            await ctx.send("Invalid argument.")
+            raise commands.BadArgument('Invalid argument')
 
     @_github.command()
     async def user(self, ctx, arg1 = None):
@@ -34,10 +34,10 @@ class github(commands.Cog):
                     await ctx.send(embed=embed)
                 
                 elif status == 404:
-                    await ctx.send(f"Invalid user.")
+                    raise commands.BadArgument('Invalid User')
                 
                 else:
-                    await ctx.send(f"Github's api responded with {status}...")
+                    raise commands.CommandError(f'GitHub responded with the status {status}')
 
     @_github.command()
     async def org(self, ctx, arg1 = None):
@@ -67,10 +67,10 @@ class github(commands.Cog):
                     await ctx.send(embed=embed)
                 
                 elif status == 404:
-                    await ctx.send(f"Invalid org.")
+                    raise commands.BadArgument('Invalid organization')
                 
                 else:
-                    await ctx.send(f"Github's api responded with {status}...")
+                    raise commands.CommandError(f'GitHub responded with the status {status}')
 
 
 def setup(bot):

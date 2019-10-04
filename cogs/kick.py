@@ -8,7 +8,7 @@ class kick(commands.Cog):
         
     @commands.command(name='Kick')
     @has_permissions(kick_members=True)
-    async def _kick(self, ctx, member: discord.Member):
+    async def _kick(self, ctx, member: discord.Member, *, arg: str):
         if member:
             if arg:
                 await ctx.message.delete()
@@ -19,7 +19,7 @@ class kick(commands.Cog):
                 await ctx.guild.kick(user=member, reason=f"{member} got kicked by {ctx.author.name}")
                 await ctx.send(f'{member} has been kicked.')
         else:
-            await ctx.send(f'Invalid user.')
+            raise commands.BadArgument('Invalid User')
 
 def setup(bot):
     bot.add_cog(kick(bot))
